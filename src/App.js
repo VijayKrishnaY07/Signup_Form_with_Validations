@@ -12,26 +12,33 @@ const App = () => {
   const { username, email, mobile, password, confirmpassword } = data;
 
   const changeHandler = (e) => {
-    setData({ ...data, [e.target.name]: [e.target.value] });
+    setData({ ...data, [e.target.name]: e.target.value });
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log(data);
-    setData({
-      username: "",
-      email: "",
-      mobile: "",
-      password: "",
-      confirmpassword: "",
-    });
-    alert("Form Submitted");
+
+    if (username.length <= 5) {
+      alert("Please enter username of more than 5 characters");
+    } else if (password.length <= 5) {
+      alert("Please enter password of more than 5 characters");
+    } else {
+      console.log(data);
+      alert("Form Submitted successfully");
+      setData({
+        username: "",
+        email: "",
+        mobile: "",
+        password: "",
+        confirmpassword: "",
+      });
+    }
   };
   return (
     <>
       <center>
         <h1>Welcome World!!</h1>
-        <form onSubmit={submitHandler}>
+        <form autoComplete="off" onSubmit={submitHandler}>
           <label>Username : </label>
           <input
             type="text"
@@ -76,6 +83,12 @@ const App = () => {
             value={confirmpassword}
             onChange={changeHandler}
           />
+          {password !== confirmpassword ? (
+            <p style={{ color: "red" }}>Passwords are not matching</p>
+          ) : (
+            <p style={{ color: "green" }}>Passwords are matching</p>
+          )}
+
           <br />
           <br />
           <input type="submit" name="Submit Form" />
